@@ -1,0 +1,25 @@
+{
+    "name": "timandes/mail-log-parser",
+    "type": "library",
+    "description": "PHP Mail Log Parser Library",
+    "keywords": ["log", "mail", "parser", "postfix", "format", "log-format"],
+    "homepage": "http://github.com/Timandes/mail-log-parser",
+    "license": "Apache 2.0",
+    "authors": [
+        {
+            "name": "Timandes White",
+            "email": "timands@gmail.com",
+            "homepage": "https://github.com/Timandes",
+            "role": "Lead"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.4",
+        "kassner/log-parser": "~1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "timandes\\": "src\\"
+        }
+    }
+}
