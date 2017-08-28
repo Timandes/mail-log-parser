@@ -74,5 +74,23 @@ class MailLogParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('5.0.0', $r->dsn);
         $this->assertEquals('bounced', $r->status);
         $this->assertEquals('(host eu-smtp-inbound-2.xxx.com[123.4.56.78] said: 550 csi.xxx.org Poor Reputation Sender. - https://community.xxx.com/docs/DOC-1369#550 (in reply to RCPT TO command))', $r->Headermessage);
+
+        $s = 'Aug 28 10:12:10 nbh2 postfix-google/smtp[28345]: 7A7D47BDC: to=<www.xx@gmail.com>, relay=gmail-smtp-in.l.google.com[74.125.133.26]:25, delay=123, delays=0.71/123/0.03/0.02, dsn=5.1.1, status=bounced (host gmail-smtp-in.l.google.com[74.125.133.26] said: 550-5.1.1 The email account that you tried to reach does not exist. Please try 550-5.1.1 double-checking the recipient\'s email address for typos or 550-5.1.1 unnecessary spaces. Learn more at 550 5.1.1  https://support.google.com/mail/?p=NoSuchUser x4si35533wrd.231 - gsmtp (in reply to RCPT TO command))';
+        $r = $parser->parse($s);
+        $this->assertEquals('Aug 28 10:12:10', $r->time);
+        $this->assertEquals('postfix-google', $r->syslogName);
+        $this->assertEquals('nbh2', $r->serverName);
+        $this->assertEquals('smtp', $r->processName);
+        $this->assertEquals(28345, $r->pid);
+        $this->assertEquals('7A7D47BDC', $r->queueItemId);
+        $this->assertEquals('www.xx@gmail.com', $r->to);
+        $this->assertEquals('gmail-smtp-in.l.google.com', $r->relayHost);
+        $this->assertEquals('74.125.133.26', $r->relayIp);
+        $this->assertEquals(25, $r->relayPort);
+        $this->assertEquals('123', $r->delay);
+        $this->assertEquals('0.71/123/0.03/0.02', $r->delays);
+        $this->assertEquals('5.1.1', $r->dsn);
+        $this->assertEquals('bounced', $r->status);
+        $this->assertEquals('(host gmail-smtp-in.l.google.com[74.125.133.26] said: 550-5.1.1 The email account that you tried to reach does not exist. Please try 550-5.1.1 double-checking the recipient\'s email address for typos or 550-5.1.1 unnecessary spaces. Learn more at 550 5.1.1  https://support.google.com/mail/?p=NoSuchUser x4si35533wrd.231 - gsmtp (in reply to RCPT TO command))', $r->Headermessage);
     }
 }

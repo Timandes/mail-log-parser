@@ -1,0 +1,7 @@
+PHP Mail Log Parser
+
+0.2.0 2017-8-28
+- Add member variable 'syslogName'
+
+0.1.0 2017-8-24
+- First version
