@@ -92,5 +92,14 @@ class MailLogParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('5.1.1', $r->dsn);
         $this->assertEquals('bounced', $r->status);
         $this->assertEquals('(host gmail-smtp-in.l.google.com[74.125.133.26] said: 550-5.1.1 The email account that you tried to reach does not exist. Please try 550-5.1.1 double-checking the recipient\'s email address for typos or 550-5.1.1 unnecessary spaces. Learn more at 550 5.1.1  https://support.google.com/mail/?p=NoSuchUser x4si35533wrd.231 - gsmtp (in reply to RCPT TO command))', $r->Headermessage);
+
+        $s = 'Aug 29 09:52:06 nbh2 opendkim[13237]: BE0C07E22: DKIM-Signature field added (s=default, d=mail.nbwlaserequipment.com)';
+        $r = $parser->parse($s);
+        $this->assertEquals('Aug 29 09:52:06', $r->time);
+        $this->assertEquals('nbh2', $r->serverName);
+        $this->assertEquals('opendkim', $r->processName);
+        $this->assertEquals(13237, $r->pid);
+        $this->assertEquals('BE0C07E22', $r->queueItemId);
+        $this->assertEquals('DKIM-Signature field added (s=default, d=mail.nbwlaserequipment.com)', $r->Headermessage);
     }
 }
