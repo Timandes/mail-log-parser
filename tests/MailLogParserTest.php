@@ -93,13 +93,38 @@ class MailLogParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('bounced', $r->status);
         $this->assertEquals('(host gmail-smtp-in.l.google.com[74.125.133.26] said: 550-5.1.1 The email account that you tried to reach does not exist. Please try 550-5.1.1 double-checking the recipient\'s email address for typos or 550-5.1.1 unnecessary spaces. Learn more at 550 5.1.1  https://support.google.com/mail/?p=NoSuchUser x4si35533wrd.231 - gsmtp (in reply to RCPT TO command))', $r->Headermessage);
 
-        $s = 'Aug 29 09:52:06 nbh2 opendkim[13237]: BE0C07E22: DKIM-Signature field added (s=default, d=mail.nbwlaserequipment.com)';
+        $s = 'Aug 29 09:52:06 nbh2 opendkim[13237]: BE0C07E22: DKIM-Signature field added (s=default, d=mail.xxx.com)';
         $r = $parser->parse($s);
         $this->assertEquals('Aug 29 09:52:06', $r->time);
         $this->assertEquals('nbh2', $r->serverName);
         $this->assertEquals('opendkim', $r->processName);
         $this->assertEquals(13237, $r->pid);
         $this->assertEquals('BE0C07E22', $r->queueItemId);
-        $this->assertEquals('DKIM-Signature field added (s=default, d=mail.nbwlaserequipment.com)', $r->Headermessage);
+        $this->assertEquals('DKIM-Signature field added (s=default, d=mail.xxx.com)', $r->Headermessage);
+
+        $s = 'Aug 29 10:02:07 nbh2 postfix/smtp[10582]: 4ABA87E25: to=<admin@xxx.com>, relay=aspmx.l.google.com[66.102.1.26]:25, delay=1.2, delays=0.72/0.01/0.07/0.4, dsn=2.0.0, status=sent (250 2.0.0 OK 1504000927 u198si1010696wmu.16 - gsmtp)';
+        $r = $parser->parse($s);
+        $this->assertEquals('Aug 29 10:02:07', $r->time);
+        $this->assertEquals('postfix', $r->syslogName);
+        $this->assertEquals('nbh2', $r->serverName);
+        $this->assertEquals('smtp', $r->processName);
+        $this->assertEquals(10582, $r->pid);
+        $this->assertEquals('4ABA87E25', $r->queueItemId);
+        $this->assertEquals('admin@xxx.com', $r->to);
+        $this->assertEquals('aspmx.l.google.com', $r->relayHost);
+        $this->assertEquals('66.102.1.26', $r->relayIp);
+        $this->assertEquals(25, $r->relayPort);
+        $this->assertEquals('1.2', $r->delay);
+        $this->assertEquals('0.72/0.01/0.07/0.4', $r->delays);
+        $this->assertEquals('2.0.0', $r->dsn);
+        $this->assertEquals('sent', $r->status);
+        $this->assertEquals('(250 2.0.0 OK 1504000927 u198si1010696wmu.16 - gsmtp)', $r->Headermessage);
+
+        $s = 'Aug 29 14:04:51 nbh2 dovecot: imap-login: Disconnected (disconnected before auth was ready, waited 0 secs): user=<>, rip=12.34.56.78, lip=13.24.57.68, TLS handshaking: SSL_accept() syscall failed: Connection reset by peer, session=<rO8X5eRX3AA0IR9n>';
+        $r = $parser->parse($s);
+        $this->assertEquals('Aug 29 14:04:51', $r->time);
+        $this->assertEquals('nbh2', $r->serverName);
+        $this->assertEquals('dovecot', $r->processName);
+        $this->assertEquals('imap-login: Disconnected (disconnected before auth was ready, waited 0 secs): user=<>, rip=12.34.56.78, lip=13.24.57.68, TLS handshaking: SSL_accept() syscall failed: Connection reset by peer, session=<rO8X5eRX3AA0IR9n>', $r->Headermessage);
     }
 }

@@ -1,5 +1,8 @@
 PHP Mail Log Parser
 
+0.2.2 2017-8-30
+- Support empty 'pid'
+
 0.2.1 2017-8-29
 - Support empty 'syslogName'
 
