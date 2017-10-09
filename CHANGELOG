@@ -1,5 +1,8 @@
 PHP Mail Log Parser
 
+0.2.3 2017-10-9
+- Compatible with one-number day of date
+
 0.2.2 2017-8-30
 - Support empty 'pid'
 
