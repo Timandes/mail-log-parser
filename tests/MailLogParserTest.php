@@ -126,5 +126,13 @@ class MailLogParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('nbh2', $r->serverName);
         $this->assertEquals('dovecot', $r->processName);
         $this->assertEquals('imap-login: Disconnected (disconnected before auth was ready, waited 0 secs): user=<>, rip=12.34.56.78, lip=13.24.57.68, TLS handshaking: SSL_accept() syscall failed: Connection reset by peer, session=<rO8X5eRX3AA0IR9n>', $r->Headermessage);
+
+        $s = 'Oct  9 09:23:26 nbh2 postfix/anvil[26210]: statistics: max connection rate 1/60s for (smtp:91.200.12.198) at Oct  9 09:20:04';
+        $r = $parser->parse($s);
+        $this->assertEquals('Oct  9 09:23:26', $r->time);
+        $this->assertEquals('nbh2', $r->serverName);
+        $this->assertEquals('anvil', $r->processName);
+        $this->assertEquals(26210, $r->pid);
+        $this->assertEquals('statistics: max connection rate 1/60s for (smtp:91.200.12.198) at Oct  9 09:20:04', $r->Headermessage);
     }
 }
