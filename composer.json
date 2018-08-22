@@ -4,7 +4,7 @@
     "description": "PHP Mail Log Parser Library",
     "keywords": ["log", "mail", "parser", "postfix", "format", "log-format"],
     "homepage": "http://github.com/Timandes/mail-log-parser",
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Timandes White",
